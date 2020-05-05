@@ -1,3 +1,5 @@
 DataSecureApplication/.idea
 DataSecureApplication/venv
+DataSecureApplication/data_secure_app/test.py
 DataSecureApplication/data_secure_app/__pycache__
+DataSecureApplication/data_secure_app/ipfs/__pycache__
