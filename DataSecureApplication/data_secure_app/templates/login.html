@@ -1,0 +1,123 @@
+{% extends "parent_layout.html" %}
+
+{% block sidebar %}
+<div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo">
+        <a href="https://www.creative-tim.com" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="{{ url_for('static', filename='img/jan-sendereks.jpg') }}">
+          </div>
+        </a>
+        <a href="javascript:;" class="simple-text logo-normal">Welcome</a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li class="active">
+                <a href="{{ url_for('main.login') }}">
+                    <i class="nc-icon nc-single-02"></i>
+                    {% if title=="DSA: Admin Login" %}
+                    <p>Admin Login</p>
+                    {% else %}
+                    <p>Login</p>
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+                <button type="button" class="navbar-toggler">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+            </div>
+            <a class="navbar-brand" href="javascript:;">{{ navbar_title }}</a>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" id="alert_message">
+                    <span>{{ message }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                <h5 class="card-title">Log In</h5>
+            </div>
+                <div class="card-body">
+                    <form method="POST" data-toggle="validator" id="login-form">
+                        <div class="form-group">
+                            {% if title=="DSA: Admin Login" %}
+                            <label for="inputUsername">Admin Username</label>
+                            {% else %}
+                            <label for="inputUsername">Username</label>
+                            {% endif %}
+                            <input type="text" pattern="[a-z0-9A-Z].*" class="form-control"
+                                   id="inputUsername" name="inputUsername" aria-describedby="emailHelp"
+                                   data-error="Enter valid username"
+                                   placeholder="Enter username" required>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            {% if title=="DSA: Admin Login" %}
+                            <label for="inputPassword">Admin Password</label>
+                            {% else %}
+                            <label for="inputPassword">Password</label>
+                            {% endif %}
+                            <!--pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[$@!%?&]).{6,16}$"-->
+                            <input type="password" class="form-control" id="inputPassword" name="inputPassword"
+                                   data-minlength="6" maxlength="16" placeholder="Password" required>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox"
+                                       id="remember_me" name="remember_me">
+                                Remember Me
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+                <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                  <i class="fa fa-lock"></i> Your Data is Secure Here!
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+setTimeout(function() {
+    $('#alert_message').fadeOut('fast');
+}, 2500);
+</script>
+{% endblock %}

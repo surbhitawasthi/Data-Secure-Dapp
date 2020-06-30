@@ -1,0 +1,94 @@
+{% extends "index_layout.html" %}
+
+{% block content %}
+<div class="content">
+    {% if role == 'doc' and user_data|length != 0 %}
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card card-user">
+                    <div class="image">
+                        <img src="{{url_for('static', filename='img/header.jpg')}}" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <div class="author">
+                            <a href="javascript:;">
+                                <img class="avatar border-gray" src="{{url_for('static', filename='img/default-avatar.png')}}" alt="...">
+                                <h5 class="title">{{user_data['name']}}</h5>
+                            </a>
+                            <p class="description">
+                                <b>{{user_data['eth_address']}}</b>
+                            </p>
+                        </div>
+                        <p class="description text-center">
+                            Practice ID: {{user_data['practice_id']}} <br>
+                            Degree: {{user_data['degree']}}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <hr>
+                        <div class="button-container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>{{user_data['file_count']}}<br><small>Files</small></h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>{{user_data['balance']}}<br><small>Balance</small></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% elif role == 'pat' and user_data|length != 0 %}
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card card-user">
+                    <div class="image">
+                        <img src="{{url_for('static', filename='img/header.jpg')}}" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <div class="author">
+                            <a href="javascript:;">
+                                <img class="avatar border-gray" src="{{url_for('static', filename='img/default-avatar.png')}}" alt="...">
+                                <h5 class="title">{{user_data['name']}}</h5>
+                            </a>
+                            <p class="description">
+                                <b>{{user_data['eth_address']}}</b>
+                            </p>
+                        </div>
+                        <p class="description text-center">
+                            Patient ID: {{user_data['patient_id']}} <br>
+                            DOB: {{user_data['dob']}} <br>
+                            Address: {{user_data['address']}}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <hr>
+                        <div class="button-container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>{{user_data['file_count']}}<br><small>Files</small></h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>{{user_data['balance']}}<br><small>Balance</small></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="description">Your Profile</h3>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

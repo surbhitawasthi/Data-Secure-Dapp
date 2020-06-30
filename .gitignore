@@ -2,4 +2,8 @@ DataSecureApplication/.idea
 DataSecureApplication/venv
 DataSecureApplication/data_secure_app/test.py
 DataSecureApplication/data_secure_app/__pycache__
-DataSecureApplication/data_secure_app/ipfs/__pycache__
+DataSecureApplication/data_secure_app/ipfs_manager/__pycache__
+DataSecureApplication/data_secure_app/encryption/__pycache__
+DataSecureApplication/data_secure_app/errors/__pycache__
+DataSecureApplication/data_secure_app/main/__pycache__
+

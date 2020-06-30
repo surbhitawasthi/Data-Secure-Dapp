@@ -1,0 +1,279 @@
+{% extends "index_layout.html" %}
+
+{% block content %}
+<div class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" id="alert_message">
+                    <span>{{ message }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="description">Your Dashboard</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header ">
+                    <h5 class="card-title">Your Files</h5>
+                </div>
+                <div class="card-body ">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">File Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in range(filenames|length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="" class="downloadFile">{{ filenames[i]['filename'] }}</a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--   Upload File opens     -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileUpload">Upload New File</button>
+                        {% if user_type == 'doc' %}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileUploadForPatient">Upload New File For Patient</button>
+                        {% endif %}
+                    </div>
+                    <div class="modal fade" id="fileUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="upload-file" action = "{{url_for('main.upload_file')}}" method = "POST"
+                                          enctype = "multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="inputGroupFile01" class="col-form-label">Upload File</label>
+                                            <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" id="fileName" for="inputGroupFile01">Choose file</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" form="upload-file" class="btn btn-primary">Upload File</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user_type == 'doc' %}
+                    <div class="modal fade" id="fileUploadForPatient" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1">Upload File for Patient</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="upload-file-for-patient" action = "{{url_for('main.upload_file_for_patient')}}" method = "POST"
+                                          enctype = "multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="patient_address" class="col-form-label">Patient Address</label>
+                                            <input type="text" name="patient_address" class="form-control" id="patient_address" aria-describedby="inputGroupFileAddon01" placeholder="Patient Address">
+                                            <small class="form-text text-muted">Remember to enter correct address, incorrect address may lead to loss of ethers.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputGroupFile02" class="col-form-label">Upload File</label>
+                                            <input type="file" name="file" class="custom-file-input" id="inputGroupFile02" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" id="fileName1" for="inputGroupFile02">Choose file</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" form="upload-file-for-patient" class="btn btn-primary">Upload File for Patient</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="card-body">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#grantPermission">Grant Permission</button>
+                    </div>
+                    <div class="modal fade" id="grantPermission" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="inputGrantLabel">Grant Permission</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="grant-perm" action = "{{url_for('main.grant_permission')}}"
+                                          method = "POST">
+                                        <div class="form-group">
+                                            <label for="user_address" class="col-form-label">User Address</label>
+                                            <input type="text" name="user_address" class="form-control" id="user_address" aria-describedby="inputGroupFileAddon01" placeholder="User Address">
+                                            <small class="form-text text-muted">Remember to enter correct address, incorrect address may lead to loss of ethers.</small>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" form="grant-perm" class="btn btn-primary">Grant</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    *These actions incur charges.
+                </div>
+            </div>
+        </div>
+        <!--   Upload File closes     -->
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">Users Access Granted</h5>
+                </div>
+                <div class="card-body ">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Revoke</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if user_details|length == 0 %}
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>No User</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        {% else %}
+                            {% for i in range(user_details|length) %}
+                                <tr>
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{user_details[i]['name']}}</td>
+                                    <td>{{user_details[i]['address']}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#revokeAccess{{(i+1)|string}}">
+                                            Revoke Access
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="revokeAccess{{(i+1)|string}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure to revoke access?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <form method="POST" action="{{url_for('main.revoke')}}">
+                                                            <input type="hidden" name="revoke_user" value="{{user_details[i]['address']}}">
+                                                            <button type="submit" id="revoke_user" class="btn btn-danger">Yes</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer ">
+                    These actions incur charges.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title">Transaction Details</h5>
+                </div>
+                <div class="card-body ">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Txn Hash</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if transactions|length == 0 %}
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>No transaction</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        {% else %}
+                            {% for i in range(transactions|length) %}
+                            <tr>
+                                <th scope="row">{{i+1}}</th>
+                                <td><a href="{{transactions[i]['txn_hash_link']}}">{{transactions[i]['txn_hash']}}</a></td>
+                                <td>{{transactions[i]['age']}}</td>
+                                <td>{{transactions[i]['value']}}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer ">
+                    Powered By Etherscan
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="application/javascript " src="../static/js/dashboard.js"></script>
+{% endblock %}
